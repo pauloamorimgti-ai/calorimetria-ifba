@@ -181,7 +181,7 @@ textarea { min-height: 90px; }
   <!-- TABELA — cálculo manual -->
   <div class="section-title">📊 Tabela de Dados Experimentais</div>
   <div class="card">
-    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Insira as temperaturas medidas. As massas estão fixadas (m₁ = 50 g · m₂ = 100 g). <strong>Calcule o Ccal manualmente</strong> com a fórmula aprendida em aula e preencha a última coluna.</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Insira as temperaturas medidas. As massas estão fixadas (m₁ = 50 g; m₂ = 100 g). <strong>Calcule o Ccal manualmente</strong> com a fórmula aprendida em aula e preencha a última coluna.</p>
     <div class="data-table-wrap">
       <table class="data-table">
         <thead>
@@ -269,7 +269,7 @@ textarea { min-height: 90px; }
 // ════════════════════════════════════════════
 // ⚙️  CONFIGURAÇÃO — edite só aqui
 // ════════════════════════════════════════════
-const FORMSPREE_ID = "SEU_ID_FORMSPREE";
+const FORMCARRY_URL = "https://formcarry.com/s/Gtf5PwSeTI3";
 // ════════════════════════════════════════════
 
 const ROWS = 6;
@@ -340,23 +340,15 @@ async function submitForm(){
     q4_resposta_previa: document.getElementById('q4').value,
   };
 
-  if(FORMSPREE_ID === 'SEU_ID_FORMSPREE'){
-    console.warn('⚠️ Formspree ID não configurado. Dados locais:', payload);
-    const saved = JSON.parse(localStorage.getItem('respostas_calorimetria_sf')||'[]');
-    saved.push(payload);
-    localStorage.setItem('respostas_calorimetria_sf', JSON.stringify(saved));
-    showSuccess(nome); return;
-  }
-
   try {
-    const res=await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{
+    const res=await fetch(FORMCARRY_URL,{
       method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify(payload)
     });
     if(res.ok){ showSuccess(nome); }
     else {
       const err=await res.json();
-      alert('Erro ao enviar: '+(err.error||res.status)+'. Tente novamente.');
+      alert('Erro ao enviar: '+(err.message||res.status)+'. Tente novamente.');
       btn.disabled=false; btn.innerHTML='✅ Enviar Respostas';
     }
   } catch(e){
