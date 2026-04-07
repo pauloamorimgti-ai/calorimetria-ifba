@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calorimetria (Sem Fórmula) · IFBA Porto Seguro</title>
+<title>Calor Latente de Fusão do Gelo (Sem Fórmula) · IFBA Porto Seguro</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -21,22 +21,29 @@
   --amber:  #b45309;
   --amberbg:#fffbeb;
   --amberborder:#fde68a;
+  --ice:    #e0f2fe;
+  --iceborder: #7dd3fc;
+  --icetext: #075985;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
 header {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+  background: linear-gradient(135deg, #0c1c3a 0%, #0f2f54 60%, #1a4d7a 100%);
   padding: 0; position: relative; overflow: hidden;
 }
 header::before {
   content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 80% 50%, rgba(240,124,53,.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse at 80% 50%, rgba(59,158,255,.14) 0%, transparent 70%);
+}
+header::after {
+  content: '❄'; position: absolute; right: 40px; top: 50%;
+  transform: translateY(-50%); font-size: 120px; opacity: .05; pointer-events: none;
 }
 .header-inner { max-width: 860px; margin: auto; padding: 40px 24px 36px; position: relative; }
 .badge {
-  display: inline-block; background: rgba(240,124,53,.2);
-  border: 1px solid var(--orange); color: var(--orange);
+  display: inline-block; background: rgba(59,158,255,.18);
+  border: 1px solid var(--sky); color: var(--sky);
   font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
   padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
 }
@@ -47,21 +54,22 @@ header::before {
   padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; margin-left: 8px;
 }
 header h1 { font-family: 'Sora', sans-serif; font-size: clamp(22px,4vw,34px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 10px; }
-header h1 span { color: #fcd34d; }
-header p { font-size: 14px; color: rgba(255,255,255,.65); max-width: 540px; }
+header h1 span { color: #7dd3fc; }
+header p { font-size: 14px; color: rgba(255,255,255,.65); max-width: 560px; }
 
-/* ALERT BANNER */
-.alert-banner {
-  max-width: 860px; margin: 20px auto 0; padding: 0 24px;
-}
+/* WARN BANNER */
+.alert-banner { max-width: 860px; margin: 20px auto 0; padding: 0 24px; }
 .alert-box {
-  background: var(--amberbg); border: 1.5px solid var(--amberborder);
   border-radius: 14px; padding: 16px 20px;
   display: flex; align-items: flex-start; gap: 14px;
 }
+.alert-box.warn {
+  background: var(--amberbg); border: 1.5px solid var(--amberborder);
+}
 .alert-icon { font-size: 24px; flex-shrink: 0; }
-.alert-text strong { color: var(--amber); font-size: 14px; display: block; margin-bottom: 4px; }
-.alert-text p { font-size: 13px; color: #78350f; line-height: 1.5; }
+.alert-text strong { font-size: 14px; display: block; margin-bottom: 4px; }
+.alert-box.warn .alert-text strong { color: var(--amber); }
+.alert-box.warn .alert-text p { font-size: 13px; color: #78350f; line-height: 1.6; }
 
 .progress-bar-wrap { max-width: 860px; margin: 16px auto 0; padding: 0 24px; }
 .progress-track { height: 6px; background: var(--border); border-radius: 10px; overflow: hidden; }
@@ -78,28 +86,50 @@ main { max-width: 860px; margin: 0 auto; padding: 32px 24px 80px; }
 .step-body label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 8px; line-height: 1.4; }
 .step-body .hint { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
 
-/* Manual calc table */
+/* Data table */
 .data-table-wrap { overflow-x: auto; margin-bottom: 16px; }
 table.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-table.data-table th { background: #1a1a2e; color: #fff; padding: 10px 12px; text-align: center; font-weight: 600; font-size: 12px; }
-table.data-table td { padding: 9px 12px; text-align: center; border-bottom: 1px solid var(--border); }
+table.data-table th {
+  background: #0c2340; color: #fff;
+  padding: 10px 12px; text-align: center;
+  font-weight: 600; font-size: 11px; letter-spacing: .5px;
+  white-space: nowrap;
+}
+table.data-table th .unit { font-weight: 400; color: rgba(255,255,255,.55); font-size: 10px; display: block; margin-top: 2px; }
+table.data-table td { padding: 9px 10px; text-align: center; border-bottom: 1px solid var(--border); }
 table.data-table tr:nth-child(even) td { background: #f7f9fd; }
-table.data-table tr:last-child td { background: #fff8e1; font-weight: 700; color: var(--amber); }
-table.data-table td input { width: 75px; padding: 5px 8px; border: 1.5px solid var(--border); border-radius: 6px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; text-align: center; -moz-appearance: textfield; }
+table.data-table td input {
+  width: 82px; padding: 5px 8px; border: 1.5px solid var(--border);
+  border-radius: 6px; font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; text-align: center; -moz-appearance: textfield;
+}
 table.data-table td input::-webkit-inner-spin-button { display: none; }
 table.data-table td input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 2px rgba(240,124,53,.15); }
+table.data-table td input.manual { border-color: #fde68a; background: #fffbeb; }
+table.data-table td input.manual:focus { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(240,124,53,.15); }
 
-/* Summary section - manual results */
+/* Summary — manual inputs */
 .manual-summary {
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  background: linear-gradient(135deg, #0c1c3a, #0f2f54);
   border-radius: 16px; padding: 24px 28px; color: #fff; margin-top: 20px;
 }
 .manual-summary h3 { font-size: 13px; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
 .ms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .ms-item .ms-label { font-size: 11px; color: rgba(255,255,255,.5); margin-bottom: 6px; }
-.ms-item input { background: rgba(255,255,255,.08); border: 1.5px solid rgba(255,255,255,.2); border-radius: 10px; padding: 10px 14px; color: #fcd34d; font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; width: 100%; }
+.ms-item input {
+  background: rgba(255,255,255,.08); border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 10px; padding: 10px 14px; color: #fcd34d;
+  font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; width: 100%;
+}
 .ms-item input:focus { outline: none; border-color: var(--orange); }
 .ms-item input::placeholder { color: rgba(255,255,255,.3); font-size: 14px; }
+.ref-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.07); border: 1px solid rgba(253,230,138,.3);
+  border-radius: 8px; padding: 6px 12px; font-size: 12px; color: rgba(255,255,255,.6);
+  margin-top: 12px;
+}
+.ref-chip strong { color: #fcd34d; }
 
 textarea, input[type=text] { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: var(--text); background: #fff; resize: vertical; transition: border-color .2s; }
 textarea:focus, input[type=text]:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(240,124,53,.12); }
@@ -116,7 +146,7 @@ textarea { min-height: 90px; }
 #success-screen { display: none; text-align: center; padding: 60px 24px; }
 #success-screen .check { font-size: 72px; margin-bottom: 20px; }
 #success-screen h2 { font-family: 'Sora', sans-serif; font-size: 28px; color: var(--green); margin-bottom: 12px; }
-#success-screen p { font-size: 15px; color: var(--muted); max-width: 400px; margin: auto; }
+#success-screen p { font-size: 15px; color: var(--muted); max-width: 420px; margin: auto; }
 
 .spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: 8px; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -128,19 +158,19 @@ textarea { min-height: 90px; }
 
 <header>
   <div class="header-inner">
-    <div class="badge">⚗️ Física 3 · Experimentoteca · IFBA Porto Seguro</div>
+    <div class="badge">❄️ Física II · 1ª Unidade · IFBA Porto Seguro</div>
     <div class="badge-warn">⚠️ Sem fórmula de apoio</div>
-    <h1>Calorimetria<br><span>Capacidade Térmica — Versão Avançada</span></h1>
-    <p>Nesta versão, você deve aplicar a fórmula aprendida em aula. Preencha os dados, calcule manualmente e responda ao questionário.</p>
+    <h1>Calor Latente de<br><span>Fusão do Gelo</span></h1>
+    <p>Nesta versão, você deve recordar e aplicar a fórmula aprendida em aula. Preencha os dados experimentais, calcule L<sub>f</sub> manualmente e responda ao questionário.</p>
   </div>
 </header>
 
 <div class="alert-banner">
-  <div class="alert-box">
+  <div class="alert-box warn">
     <div class="alert-icon">📐</div>
     <div class="alert-text">
       <strong>Atenção: Fórmula não fornecida</strong>
-      <p>O professor optou por não exibir a fórmula nesta versão. Você deve lembrar e aplicar corretamente a equação da capacidade térmica do calorímetro para calcular a coluna Ccal manualmente. A média e o equivalente em água também devem ser inseridos por você.</p>
+      <p>O professor optou por não exibir a fórmula nesta versão. Você deve lembrar a equação de balanço de energia e isolá-la para calcular L<sub>f</sub> manualmente em cada ensaio — inclusive a coluna m<sub>gelo</sub>. A média e o desvio também devem ser calculados por você.</p>
     </div>
   </div>
 </div>
@@ -157,98 +187,114 @@ textarea { min-height: 90px; }
   <div class="card">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div>
-        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">NOME COMPLETO</label>
-        <input type="text" id="nome" placeholder="Seu nome" oninput="updateProgress()">
+        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">NOME(S) COMPLETO(S) — até 3 integrantes</label>
+        <input type="text" id="nome" placeholder="Ex.: Ana Silva, João Costa, Maria Souza" oninput="updateProgress()">
       </div>
       <div>
-        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">TURMA / SÉRIE</label>
-        <input type="text" id="turma" placeholder="Ex.: 2º A" oninput="updateProgress()">
+        <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">TURMA</label>
+        <input type="text" id="turma" placeholder="Ex.: 2º Ano A" oninput="updateProgress()">
       </div>
     </div>
-  </div>
-
-  <!-- QUESTÃO PRÉVIA -->
-  <div class="section-title">📌 Questão Prévia</div>
-  <div class="card card-step">
-    <div class="step-num">?</div>
-    <div class="step-body">
-      <label>Para que quantidades diferentes de água tenham a mesma variação de temperatura em um mesmo intervalo de tempo, qual a relação entre as quantidades de calor fornecidas?</label>
-      <p class="hint">Responda com suas palavras, antes de realizar o experimento.</p>
-      <textarea id="q_previa" placeholder="Escreva sua hipótese aqui..." oninput="updateProgress()"></textarea>
+    <div style="margin-top:14px">
+      <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:4px">DATA DO EXPERIMENTO</label>
+      <input type="text" id="data_exp" placeholder="DD/MM/AAAA" style="max-width:200px" oninput="updateProgress()">
     </div>
   </div>
 
-  <!-- TABELA — cálculo manual -->
+  <!-- TABELA DE DADOS -->
   <div class="section-title">📊 Tabela de Dados Experimentais</div>
+
   <div class="card">
-    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Insira as temperaturas medidas. As massas estão fixadas (m₁ = 50 g; m₂ = 100 g). <strong>Calcule o Ccal manualmente</strong> com a fórmula aprendida em aula e preencha a última coluna.</p>
     <div class="data-table-wrap">
       <table class="data-table">
         <thead>
           <tr>
-            <th>Ensaio</th><th>m₁ (g)</th><th>m₂ (g)</th>
-            <th>T₁ᵢ (°C)</th><th>T₂ᵢ (°C)</th><th>Tf (°C)</th>
-            <th>Ccal (cal/°C)<br><small style="font-weight:400;opacity:.8">⚠️ Calcule manualmente</small></th>
+            <th>Ensaio</th>
+            <th>m<sub>água-ini</sub><span class="unit">(g)</span></th>
+            <th>m<sub>total-fin</sub><span class="unit">(g)</span></th>
+            <th>m<sub>gelo</sub><span class="unit">(g) — calcule</span></th>
+            <th>T<sub>inicial</sub><span class="unit">(°C)</span></th>
+            <th>T<sub>equilíbrio</sub><span class="unit">(°C)</span></th>
+            <th>L<sub>f</sub><span class="unit">(cal/g) — calcule</span></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="6" style="text-align:right;font-weight:700;padding-right:16px;color:#78350f">Média (C̄cal) inserida abaixo →</td>
-            <td style="color:var(--amber)">↓</td>
-          </tr>
-        </tfoot>
       </table>
     </div>
 
-    <!-- Manual results entry -->
+    <!-- Resumo manual -->
     <div class="manual-summary">
-      <h3>Resultados Calculados por Você</h3>
+      <h3>📈 Resultados — Preencha Manualmente</h3>
       <div class="ms-grid">
         <div class="ms-item">
-          <div class="ms-label">Capacidade Térmica Média — C̄cal (cal/°C)</div>
-          <input type="number" id="manual_ccal" placeholder="Ex.: 12.45" step="0.01" oninput="updateProgress()">
+          <div class="ms-label">L<sub>f</sub> médio calculado (cal/g)</div>
+          <input type="number" id="lf_medio" placeholder="Calcule a média..." step="0.01" oninput="updateProgress()">
         </div>
         <div class="ms-item">
-          <div class="ms-label">Equivalente em Água — meq (g)</div>
-          <input type="number" id="manual_eq" placeholder="Ex.: 12.45" step="0.01" oninput="updateProgress()">
+          <div class="ms-label">Desvio em relação a 80,0 cal/g (%)</div>
+          <input type="number" id="desvio_manual" placeholder="Calcule o desvio..." step="0.1" oninput="updateProgress()">
         </div>
       </div>
+      <div class="ref-chip">Valor de referência: <strong>L<sub>f</sub> = 80,0 cal/g</strong> (gelo, pressão normal)</div>
     </div>
   </div>
 
-  <!-- QUESTIONÁRIO -->
-  <div class="section-title">📝 Questionário</div>
+  <!-- QUESTÕES -->
+  <div class="section-title">📝 Questões</div>
+
   <div class="card card-step">
     <div class="step-num">1</div>
     <div class="step-body">
-      <label>Determine o valor médio da capacidade térmica do calorímetro.</label>
-      <p class="hint">Mostre o cálculo detalhado. Indique quais ensaios usou e como obteve a média.</p>
-      <textarea id="q1" placeholder="Cálculo detalhado..." oninput="updateProgress()"></textarea>
+      <label>Utilizando o princípio da conservação de energia, deduza a fórmula para encontrar o calor latente de fusão do gelo.</label>
+      <p class="hint">Parta da equação de balanço de energia entre o gelo, a água e o calorímetro (ideal). Mostre cada passo até isolar L<sub>f</sub>.</p>
+      <textarea id="q1" placeholder="Desenvolvimento da dedução da fórmula..." oninput="updateProgress()"></textarea>
     </div>
   </div>
+
   <div class="card card-step">
     <div class="step-num">2</div>
     <div class="step-body">
-      <label>Determine o equivalente em água do calorímetro.</label>
-      <p class="hint">Mostre a equação usada e o cálculo passo a passo.</p>
-      <textarea id="q2" placeholder="Cálculo detalhado..." oninput="updateProgress()"></textarea>
+      <label>Calcule o valor médio do calor latente de fusão do gelo obtido nos experimentos.</label>
+      <p class="hint">Mostre o cálculo da média dos valores de L<sub>f</sub> da tabela. Indique quais ensaios foram considerados e transcreva o resultado no resumo acima.</p>
+      <textarea id="q2" placeholder="Cálculo detalhado da média..." oninput="updateProgress()"></textarea>
     </div>
   </div>
+
   <div class="card card-step">
     <div class="step-num">3</div>
     <div class="step-body">
-      <label>Dê sugestões de como poderia diminuir a capacidade térmica do calorímetro.</label>
-      <p class="hint">Pense nos materiais e na construção do equipamento.</p>
-      <textarea id="q3" placeholder="Suas sugestões..." oninput="updateProgress()"></textarea>
+      <label>O valor médio encontrado corresponde ao valor de referência (80,0 cal/g)? Qual o desvio apresentado?</label>
+      <p class="hint">
+        Calcule: desvio = |L<sub>f exp</sub> − 80,0| / 80,0 × 100%. Justifique a resposta e discuta se o desvio é aceitável.
+      </p>
+      <textarea id="q3" placeholder="Cálculo do desvio e justificativa..." oninput="updateProgress()"></textarea>
     </div>
   </div>
+
   <div class="card card-step">
     <div class="step-num">4</div>
     <div class="step-body">
-      <label>E agora você consegue responder à questão prévia? Compare com sua hipótese inicial.</label>
-      <p class="hint">Reflita sobre o que mudou no seu entendimento após o experimento.</p>
-      <textarea id="q4" placeholder="Resposta final..." oninput="updateProgress()"></textarea>
+      <label>Nos cálculos consideramos o calorímetro ideal (Q<sub>cal</sub> = 0). Como essa consideração pode ter influenciado o desvio encontrado?</label>
+      <p class="hint">Reflita sobre o calor absorvido pelo calorímetro real e em que sentido isso afeta o resultado medido.</p>
+      <textarea id="q4" placeholder="Análise do calorímetro ideal vs real..." oninput="updateProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="card card-step">
+    <div class="step-num">5</div>
+    <div class="step-body">
+      <label>Em viagem, usamos uma caixa de isopor com gelo para manter alimentos em baixa temperatura. O isopor não é isolante perfeito e calor flui do ambiente para o interior. Por que a temperatura não aumenta enquanto houver gelo? Para onde vai esse calor?</label>
+      <p class="hint">Relacione com o conceito de calor latente estudado no experimento.</p>
+      <textarea id="q5" placeholder="Explicação com base no calor latente..." oninput="updateProgress()"></textarea>
+    </div>
+  </div>
+
+  <div class="card card-step">
+    <div class="step-num">6</div>
+    <div class="step-body">
+      <label>Observações gerais — dificuldades encontradas, fontes de erro e sugestões de melhoria.</label>
+      <p class="hint">Opcional, mas contribui para o relatório completo.</p>
+      <textarea id="q6" placeholder="Observações e sugestões (opcional)..." oninput="updateProgress()"></textarea>
     </div>
   </div>
 
@@ -260,7 +306,7 @@ textarea { min-height: 90px; }
 <div id="success-screen">
   <div class="check">🎉</div>
   <h2>Respostas enviadas!</h2>
-  <p>Obrigado, <strong id="success-name"></strong>! Suas respostas foram registradas com sucesso.<br>O professor receberá uma cópia com seus dados e cálculos.</p>
+  <p>Obrigado, <strong id="success-name"></strong>! Suas respostas foram registradas com sucesso.<br>O professor receberá uma cópia com os dados experimentais e as respostas do grupo.</p>
   <br>
   <button class="submit-btn" style="max-width:260px;margin:20px auto" onclick="resetForm()">Enviar nova resposta</button>
 </div>
@@ -272,105 +318,124 @@ textarea { min-height: 90px; }
 const FORMCARRY_URL = "https://formcarry.com/s/Gtf5PwSeTI3";
 // ════════════════════════════════════════════
 
-const ROWS = 6;
+const ROWS = 4;
 const tbody = document.getElementById('tableBody');
 
-for(let i=1;i<=ROWS;i++){
+for (let i = 1; i <= ROWS; i++) {
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td>${i}</td><td>50</td><td>100</td>
-    <td><input type="number" id="t1i_${i}" placeholder="—" step="0.1" oninput="updateProgress()"></td>
-    <td><input type="number" id="t2i_${i}" placeholder="—" step="0.1" oninput="updateProgress()"></td>
-    <td><input type="number"  id="tf_${i}" placeholder="—" step="0.1" oninput="updateProgress()"></td>
-    <td><input type="number" id="ccal_${i}" placeholder="Calcule" step="0.001" style="width:90px" oninput="updateProgress()"></td>`;
+    <td style="font-weight:700;color:var(--muted)">${i}</td>
+    <td><input type="number" id="m_agua_${i}"  placeholder="—" step="0.1" oninput="updateProgress()"></td>
+    <td><input type="number" id="m_total_${i}" placeholder="—" step="0.1" oninput="updateProgress()"></td>
+    <td><input type="number" id="m_gelo_${i}"  placeholder="Calcule" step="0.1" class="manual" oninput="updateProgress()"></td>
+    <td><input type="number" id="ti_${i}"      placeholder="—" step="0.1" oninput="updateProgress()"></td>
+    <td><input type="number" id="teq_${i}"     placeholder="—" step="0.1" oninput="updateProgress()"></td>
+    <td><input type="number" id="lf_${i}"      placeholder="Calcule" step="0.01" class="manual" style="width:90px" oninput="updateProgress()"></td>`;
   tbody.appendChild(tr);
 }
 
-function updateProgress(){
-  const fields=['nome','turma','q_previa','q1','q2','q3','q4','manual_ccal','manual_eq'];
-  let filled=fields.filter(id=>{ const el=document.getElementById(id); return el&&el.value.trim(); }).length;
-  let tableRows=0;
-  for(let i=1;i<=ROWS;i++){
-    if(document.getElementById(`t1i_${i}`).value &&
-       document.getElementById(`t2i_${i}`).value &&
-       document.getElementById(`tf_${i}`).value &&
-       document.getElementById(`ccal_${i}`).value) tableRows++;
+function updateProgress() {
+  const fields = ['nome', 'turma', 'q1', 'q2', 'q3', 'q4', 'q5', 'lf_medio', 'desvio_manual'];
+  let filled = fields.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.value.trim();
+  }).length;
+
+  let tableRows = 0;
+  for (let i = 1; i <= ROWS; i++) {
+    const mA  = document.getElementById(`m_agua_${i}`).value;
+    const mT  = document.getElementById(`m_total_${i}`).value;
+    const mG  = document.getElementById(`m_gelo_${i}`).value;
+    const ti  = document.getElementById(`ti_${i}`).value;
+    const teq = document.getElementById(`teq_${i}`).value;
+    const lf  = document.getElementById(`lf_${i}`).value;
+    if (mA && mT && mG && ti && teq && lf) tableRows++;
   }
-  const pct=Math.round(((filled+tableRows)/(fields.length+ROWS))*100);
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('progressLabel').textContent=pct+'% concluído';
+
+  const minRows = 3;
+  const tableScore = Math.min(tableRows, minRows);
+  const pct = Math.round(((filled + tableScore) / (fields.length + minRows)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = pct + '% concluído';
 }
 
-function buildTableText(){
-  let lines=['Ensaio | m1(g) | m2(g) | T1i(°C) | T2i(°C) | Tf(°C) | Ccal(cal/°C)'];
-  for(let i=1;i<=ROWS;i++){
+function buildTableText() {
+  let lines = ['Ensaio | m_água-ini (g) | m_total-fin (g) | m_gelo (g) | T_inicial (°C) | T_equilíbrio (°C) | Lf (cal/g)'];
+  for (let i = 1; i <= ROWS; i++) {
     lines.push([
-      i, 50, 100,
-      document.getElementById(`t1i_${i}`).value||'—',
-      document.getElementById(`t2i_${i}`).value||'—',
-      document.getElementById(`tf_${i}`).value||'—',
-      document.getElementById(`ccal_${i}`).value||'—',
+      i,
+      document.getElementById(`m_agua_${i}`).value  || '—',
+      document.getElementById(`m_total_${i}`).value || '—',
+      document.getElementById(`m_gelo_${i}`).value  || '—',
+      document.getElementById(`ti_${i}`).value      || '—',
+      document.getElementById(`teq_${i}`).value     || '—',
+      document.getElementById(`lf_${i}`).value      || '—',
     ].join(' | '));
   }
-  lines.push('Média Ccal (manual): '+( document.getElementById('manual_ccal').value||'—')+' cal/°C');
-  lines.push('Eq. em água (manual): '+(document.getElementById('manual_eq').value||'—')+' g');
+  lines.push('Lf médio (manual): '    + (document.getElementById('lf_medio').value      || '—') + ' cal/g');
+  lines.push('Desvio (manual): '      + (document.getElementById('desvio_manual').value || '—') + ' %');
   return lines.join('\n');
 }
 
-async function submitForm(){
-  const nome=document.getElementById('nome').value.trim();
-  if(!nome){alert('Por favor, informe seu nome antes de enviar.');document.getElementById('nome').focus();return;}
+async function submitForm() {
+  const nome = document.getElementById('nome').value.trim();
+  if (!nome) { alert('Por favor, informe o nome do grupo antes de enviar.'); document.getElementById('nome').focus(); return; }
 
-  const btn=document.getElementById('submitBtn');
-  btn.disabled=true;
-  btn.innerHTML='<span class="spinner"></span> Enviando…';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Enviando…';
 
-  const payload={
-    _subject: `[Calorimetria — Sem Fórmula] Resposta de ${nome} — ${document.getElementById('turma').value}`,
-    versao: 'SEM FORMULA (alunos devem calcular)',
-    nome, turma: document.getElementById('turma').value,
+  const payload = {
+    _subject: `[Calor Latente — Sem Fórmula] Resposta de ${nome} — ${document.getElementById('turma').value}`,
+    versao: 'SEM FÓRMULA (alunos devem calcular)',
+    experimento: 'Calor Latente de Fusão do Gelo — Física II',
+    nome,
+    turma:    document.getElementById('turma').value,
+    data_exp: document.getElementById('data_exp').value,
     timestamp: new Date().toLocaleString('pt-BR'),
-    questao_previa: document.getElementById('q_previa').value,
-    tabela_dados: buildTableText(),
-    ccal_medio_manual: document.getElementById('manual_ccal').value,
-    eq_agua_manual: document.getElementById('manual_eq').value,
-    q1_ccal_medio: document.getElementById('q1').value,
-    q2_equivalente_agua: document.getElementById('q2').value,
-    q3_sugestoes: document.getElementById('q3').value,
-    q4_resposta_previa: document.getElementById('q4').value,
+    tabela_dados:               buildTableText(),
+    lf_medio_manual:            document.getElementById('lf_medio').value,
+    desvio_manual:              document.getElementById('desvio_manual').value,
+    q1_deducao_formula:         document.getElementById('q1').value,
+    q2_calculo_media_lf:        document.getElementById('q2').value,
+    q3_desvio_referencia:       document.getElementById('q3').value,
+    q4_calorimetro_ideal:       document.getElementById('q4').value,
+    q5_isopor_gelo:             document.getElementById('q5').value,
+    q6_observacoes:             document.getElementById('q6').value,
   };
 
   try {
-    const res=await fetch(FORMCARRY_URL,{
-      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify(payload)
+    const res = await fetch(FORMCARRY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
     });
-    if(res.ok){ showSuccess(nome); }
+    if (res.ok) { showSuccess(nome); }
     else {
-      const err=await res.json();
-      alert('Erro ao enviar: '+(err.message||res.status)+'. Tente novamente.');
-      btn.disabled=false; btn.innerHTML='✅ Enviar Respostas';
+      const err = await res.json();
+      alert('Erro ao enviar: ' + (err.message || res.status) + '. Tente novamente.');
+      btn.disabled = false; btn.innerHTML = '✅ Enviar Respostas';
     }
-  } catch(e){
+  } catch (e) {
     alert('Sem conexão com a internet. Verifique e tente novamente.');
-    btn.disabled=false; btn.innerHTML='✅ Enviar Respostas';
+    btn.disabled = false; btn.innerHTML = '✅ Enviar Respostas';
   }
 }
 
-function showSuccess(nome){
-  document.getElementById('main-form').style.display='none';
-  document.getElementById('success-screen').style.display='block';
-  document.getElementById('success-name').textContent=nome;
-  document.getElementById('progressFill').style.width='100%';
-  document.getElementById('progressLabel').textContent='100% concluído ✓';
+function showSuccess(nome) {
+  document.getElementById('main-form').style.display = 'none';
+  document.getElementById('success-screen').style.display = 'block';
+  document.getElementById('success-name').textContent = nome;
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressLabel').textContent = '100% concluído ✓';
 }
 
-function resetForm(){
-  document.getElementById('main-form').style.display='block';
-  document.getElementById('success-screen').style.display='none';
+function resetForm() {
+  document.getElementById('main-form').style.display = 'block';
+  document.getElementById('success-screen').style.display = 'none';
   document.getElementById('main-form').reset();
-  document.getElementById('submitBtn').disabled=false;
-  document.getElementById('submitBtn').innerHTML='✅ Enviar Respostas';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').innerHTML = '✅ Enviar Respostas';
   updateProgress();
 }
 
